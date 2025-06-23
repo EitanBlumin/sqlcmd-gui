@@ -57,11 +57,6 @@ namespace SqlcmdGuiApp
             }
         }
 
-        private void AuthComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            SqlAuthPanel.Visibility = AuthComboBox.SelectedIndex == 1 ? Visibility.Visible : Visibility.Collapsed;
-        }
-
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
             if (!File.Exists(FilePathTextBox.Text))
