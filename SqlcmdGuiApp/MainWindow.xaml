@@ -1,7 +1,7 @@
 <Window x:Class="SqlcmdGuiApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="SQLCMD GUI" Height="300" Width="400">
+        Title="SQLCMD GUI" Height="600" Width="600">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -17,5 +17,54 @@
             <TextBlock Text="Password:"/>
             <PasswordBox x:Name="PasswordBox"/>
         </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox x:Name="FilePathTextBox" Grid.Column="0" Grid.Row="0" Margin="0 0 5 5"/>
+        <Button Content="Browse" Grid.Column="1" Grid.Row="0" Click="BrowseButton_Click"/>
+
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" Margin="0 5">
+            <TextBlock Text="Connection Details" FontWeight="Bold"/>
+            <StackPanel Orientation="Horizontal" Margin="0 2">
+                <TextBlock Text="Server:" Width="80"/>
+                <TextBox x:Name="ServerTextBox" Width="200"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 2">
+                <TextBlock Text="Database:" Width="80"/>
+                <TextBox x:Name="DatabaseTextBox" Width="200"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 2">
+                <TextBlock Text="Authentication:" Width="80"/>
+                <ComboBox x:Name="AuthComboBox" Width="200" SelectionChanged="AuthComboBox_SelectionChanged">
+                    <ComboBoxItem Content="Windows" IsSelected="True"/>
+                    <ComboBoxItem Content="SQL"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 2" x:Name="SqlAuthPanel" Visibility="Collapsed">
+                <TextBlock Text="User:" Width="80"/>
+                <TextBox x:Name="UserTextBox" Width="100"/>
+                <TextBlock Text="Password:" Margin="10 0"/>
+                <PasswordBox x:Name="PasswordBox" Width="100"/>
+            </StackPanel>
+        </StackPanel>
+
+        <GroupBox Header="Parameters" Grid.Row="2" Grid.ColumnSpan="2" Margin="0 5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="ParametersPanel">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="{Binding Name}" Width="150"/>
+                                <TextBox Text="{Binding Value}" Width="200"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </GroupBox>
+
+        <Button Content="Execute" Grid.Row="3" Grid.ColumnSpan="2" Height="30" Click="ExecuteButton_Click"/>
     </Grid>
 </Window>
