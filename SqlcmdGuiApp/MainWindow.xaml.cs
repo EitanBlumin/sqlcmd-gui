@@ -104,6 +104,10 @@ namespace SqlcmdGuiApp
             try
             {
                 var process = Process.Start(psi);
+                if (process == null)
+                {
+                    throw new InvalidOperationException("Failed to start sqlcmd process.");
+                }
                 process.WaitForExit();
                 var output = process.StandardOutput.ReadToEnd();
                 var error = process.StandardError.ReadToEnd();
@@ -121,7 +125,7 @@ namespace SqlcmdGuiApp
 
     public class SqlParameter
     {
-        public string Name { get; set; }
-        public string Value { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
     }
 }

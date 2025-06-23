@@ -37,7 +37,7 @@ namespace SqlcmdGuiApp
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            LogError(e.ExceptionObject.ToString());
+            LogError(e.ExceptionObject?.ToString() ?? string.Empty);
         }
 
         private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
