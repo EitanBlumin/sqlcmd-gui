@@ -1,5 +1,7 @@
 # sqlcmd-gui
 
+An attempt to implement a graphical user interface based on SQLCMD for executing parameterized TSQL scripts.
+
 This repository contains a minimal Windows desktop application for executing parameterized SQL scripts with `sqlcmd`.
 
 The application allows you to:

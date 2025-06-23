@@ -6,9 +6,17 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <ComboBox x:Name="AuthComboBox" Margin="0,0,0,10">
+            <ComboBoxItem Content="Windows Authentication"/>
+            <ComboBoxItem Content="SQL Server Authentication"/>
+        </ComboBox>
+        <StackPanel x:Name="SqlAuthPanel" Grid.Row="1" Visibility="Collapsed">
+            <TextBlock Text="Username:"/>
+            <TextBox x:Name="UsernameBox"/>
+            <TextBlock Text="Password:"/>
+            <PasswordBox x:Name="PasswordBox"/>
+        </StackPanel>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
