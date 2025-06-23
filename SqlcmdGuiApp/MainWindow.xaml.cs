@@ -1,4 +1,5 @@
 using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -94,13 +95,21 @@ namespace SqlcmdGuiApp
             psi.ArgumentList.Add("-i");
             psi.ArgumentList.Add(FilePathTextBox.Text);
 
-            var process = Process.Start(psi);
-            process.WaitForExit();
-            var output = process.StandardOutput.ReadToEnd();
-            var error = process.StandardError.ReadToEnd();
+            try
+            {
+                var process = Process.Start(psi);
+                process.WaitForExit();
+                var output = process.StandardOutput.ReadToEnd();
+                var error = process.StandardError.ReadToEnd();
 
-            var window = new OutputWindow(output, error);
-            window.ShowDialog();
+                var window = new OutputWindow(output, error);
+                window.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                App.LogError(ex.ToString());
+                MessageBox.Show("Failed to execute sqlcmd. See error.log for details.");
+            }
         }
     }
 
