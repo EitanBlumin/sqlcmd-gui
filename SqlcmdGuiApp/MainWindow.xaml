@@ -1,0 +1,21 @@
+<Window x:Class="SqlcmdGuiApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SQLCMD GUI" Height="300" Width="400">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ComboBox x:Name="AuthComboBox" SelectionChanged="AuthComboBox_SelectionChanged" Margin="0,0,0,10">
+            <ComboBoxItem Content="Windows Authentication"/>
+            <ComboBoxItem Content="SQL Server Authentication"/>
+        </ComboBox>
+        <StackPanel x:Name="SqlAuthPanel" Grid.Row="1" Visibility="Collapsed">
+            <TextBlock Text="Username:"/>
+            <TextBox x:Name="UsernameBox"/>
+            <TextBlock Text="Password:"/>
+            <PasswordBox x:Name="PasswordBox"/>
+        </StackPanel>
+    </Grid>
+</Window>
