@@ -7,7 +7,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ComboBox x:Name="AuthComboBox" SelectionChanged="AuthComboBox_SelectionChanged" Margin="0,0,0,10">
+        <ComboBox x:Name="AuthComboBox" Margin="0,0,0,10">
             <ComboBoxItem Content="Windows Authentication"/>
             <ComboBoxItem Content="SQL Server Authentication"/>
         </ComboBox>

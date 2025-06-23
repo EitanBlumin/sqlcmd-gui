@@ -8,8 +8,8 @@ namespace SqlcmdGuiApp
         public MainWindow()
         {
             InitializeComponent();
-            // Optionally, hook the event after initialization to avoid early invocation
-            // AuthComboBox.SelectionChanged += AuthComboBox_SelectionChanged;
+            // Hook the event after initialization to avoid early invocation while components load
+            AuthComboBox.SelectionChanged += AuthComboBox_SelectionChanged;
         }
 
         private void AuthComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
