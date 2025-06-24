@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Security.Principal;
 
 namespace SqlcmdGuiApp
 {
@@ -20,15 +21,23 @@ namespace SqlcmdGuiApp
             InitializeComponent();
             // Hook the event after initialization to avoid early invocation while components load
             AuthComboBox.SelectionChanged += AuthComboBox_SelectionChanged;
-            
+
             ParametersPanel.ItemsSource = Parameters;
+
+            // Set initial visibility and account information
+            AuthComboBox_SelectionChanged(null, null);
         }
 
         private void AuthComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SqlAuthPanel == null) return; // may be null during XAML load
-            SqlAuthPanel.Visibility =
-                AuthComboBox.SelectedIndex == 1 ? Visibility.Visible : Visibility.Collapsed;
+            if (SqlAuthPanel == null || WindowsAuthPanel == null) return; // may be null during XAML load
+            var useSqlAuth = AuthComboBox.SelectedIndex == 1;
+            SqlAuthPanel.Visibility = useSqlAuth ? Visibility.Visible : Visibility.Collapsed;
+            WindowsAuthPanel.Visibility = useSqlAuth ? Visibility.Collapsed : Visibility.Visible;
+            if (!useSqlAuth)
+            {
+                WindowsAccountTextBlock.Text = System.Security.Principal.WindowsIdentity.GetCurrent()?.Name ?? string.Empty;
+            }
         }
 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
