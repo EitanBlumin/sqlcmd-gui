@@ -2,7 +2,18 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="SQLCMD Output" Height="400" Width="600">
-    <Grid Margin="5">
+    <DockPanel Margin="5">
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusTextBlock" Text="Status: Running" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock x:Name="DurationTextBlock" Text="Duration: 00:00:00" />
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <Button x:Name="StopButton" Content="Stop" Width="60" Click="StopButton_Click"/>
+            </StatusBarItem>
+        </StatusBar>
         <TextBox x:Name="OutputTextBox" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
-    </Grid>
+    </DockPanel>
 </Window>

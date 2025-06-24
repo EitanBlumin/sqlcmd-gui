@@ -246,6 +246,8 @@ namespace SqlcmdGuiApp
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 
+                window.AttachProcess(process);
+
                 window.Show();
 
                 await process.WaitForExitAsync();
