@@ -143,7 +143,7 @@ namespace SqlcmdGuiApp
             return "sqlcmd " + string.Join(" ", args);
         }
 
-        private void ExecuteButton_Click(object sender, RoutedEventArgs e)
+        private async void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
             if (!File.Exists(FilePathTextBox.Text))
             {
@@ -155,17 +155,34 @@ namespace SqlcmdGuiApp
 
             try
             {
-                var process = Process.Start(psi);
-                if (process == null)
+                var process = new Process { StartInfo = psi, EnableRaisingEvents = true };
+                var window = new OutputWindow();
+                process.OutputDataReceived += (s, ea) =>
+                {
+                    if (ea.Data != null)
+                    {
+                        window.AppendOutput(ea.Data + "\n");
+                    }
+                };
+                process.ErrorDataReceived += (s, ea) =>
+                {
+                    if (ea.Data != null)
+                    {
+                        window.AppendOutput(ea.Data + "\n");
+                    }
+                };
+
+                if (!process.Start())
                 {
                     throw new InvalidOperationException("Failed to start sqlcmd process.");
                 }
-                process.WaitForExit();
-                var output = process.StandardOutput.ReadToEnd();
-                var error = process.StandardError.ReadToEnd();
 
-                var window = new OutputWindow(output, error);
-                window.ShowDialog();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+
+                window.Show();
+
+                await process.WaitForExitAsync();
             }
             catch (Exception ex)
             {
