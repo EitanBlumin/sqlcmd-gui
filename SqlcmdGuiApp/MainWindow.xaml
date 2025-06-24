@@ -6,7 +6,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -55,7 +57,16 @@
             <CheckBox x:Name="ReadOnlyIntentCheckBox" Content="ReadOnly Application Intent" Margin="0 2"/>
         </StackPanel>
 
-        <GroupBox Header="Parameters" Grid.Row="2" Grid.ColumnSpan="2" Margin="0 5">
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 5 0 0">
+            <Button Margin="5" Width="120" Click="TestConnectionButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE9D9;" Margin="0 0 5 0"/>
+                    <TextBlock Text="Test Connection"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <GroupBox Header="Parameters" Grid.Row="3" Grid.ColumnSpan="2" Margin="0 5">
             <Grid>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ItemsControl x:Name="ParametersPanel">
@@ -73,7 +84,7 @@
             </Grid>
         </GroupBox>
 
-        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 5 0 0">
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 5 0 0">
             <Button Margin="5" Width="100" Click="LoadConfigButton_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8B7;" Margin="0 0 5 0"/>
@@ -86,12 +97,9 @@
                     <TextBlock Text="Save Config"/>
                 </StackPanel>
             </Button>
-            <Button Margin="5" Width="120" Click="TestConnectionButton_Click">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE9D9;" Margin="0 0 5 0"/>
-                    <TextBlock Text="Test Connection"/>
-                </StackPanel>
-            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 5 0 0">
             <Button Margin="5" Width="120" Click="ViewCommandLineButton_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE756;" Margin="0 0 5 0"/>
@@ -105,6 +113,6 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-        <TextBlock Grid.Row="4" Grid.ColumnSpan="2" Text="Copyright © Eitan Blumin, 2025" Foreground="#336699" HorizontalAlignment="Center" Margin="0 5 0 0"/>
+        <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="Copyright © Eitan Blumin, 2025" Foreground="#336699" HorizontalAlignment="Center" Margin="0 5 0 0"/>
     </Grid>
 </Window>
