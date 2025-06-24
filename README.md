@@ -30,5 +30,7 @@ dotnet run --project SqlcmdGuiApp/SqlcmdGuiApp.csproj
 ```
 
 You need the `sqlcmd` utility available in your PATH for the execution step to work.
+The application invokes `sqlcmd` with the `-b` option so that any errors result
+in a non-zero exit code.
 
 Any unhandled errors encountered by the application are written to `error.log` in the application directory.

@@ -69,7 +69,8 @@ namespace SqlcmdGuiApp
 
         private List<string> BuildSqlcmdArguments(bool includeInputFile)
         {
-            var args = new List<string> { "-S", ServerTextBox.Text };
+            // Use -b so sqlcmd returns a non-zero exit code on errors
+            var args = new List<string> { "-b", "-S", ServerTextBox.Text };
 
             if (!string.IsNullOrEmpty(DatabaseTextBox.Text))
             {
