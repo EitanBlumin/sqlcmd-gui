@@ -44,14 +44,7 @@
                 <TextBlock Text="Password:" Margin="10 0"/>
                 <PasswordBox x:Name="PasswordBox" Width="100"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0 2">
-                <TextBlock Text="Encrypt:" Width="80"/>
-                <ComboBox x:Name="EncryptComboBox" Width="200">
-                    <ComboBoxItem Content="true" IsSelected="True"/>
-                    <ComboBoxItem Content="false"/>
-                    <ComboBoxItem Content="disable"/>
-                </ComboBox>
-            </StackPanel>
+            <CheckBox x:Name="EncryptCheckBox" Content="Encrypt Connection" Margin="0 2"/>
             <CheckBox x:Name="TrustServerCertificateCheckBox" Content="Trust Server Certificate" Margin="0 2"/>
             <CheckBox x:Name="ReadOnlyIntentCheckBox" Content="ReadOnly Application Intent" Margin="0 2"/>
         </StackPanel>

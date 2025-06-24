@@ -88,11 +88,9 @@ namespace SqlcmdGuiApp
                 args.Add("-E");
             }
 
-            var encrypt = (EncryptComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString()?.ToLower();
-            if (!string.IsNullOrEmpty(encrypt))
+            if (EncryptCheckBox.IsChecked == true)
             {
                 args.Add("-N");
-                args.Add(encrypt);
             }
 
             if (TrustServerCertificateCheckBox.IsChecked == true)
