@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Security.Principal;
+using System.Text.Json;
 
 namespace SqlcmdGuiApp
 {
@@ -141,6 +142,71 @@ namespace SqlcmdGuiApp
         {
             var args = BuildSqlcmdArguments(true).Select(Quote);
             return "sqlcmd " + string.Join(" ", args);
+        }
+
+        private void SaveConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SaveFileDialog { Filter = "JSON Files (*.json)|*.json|All Files (*.*)|*.*" };
+            if (dlg.ShowDialog() != true) return;
+
+            var config = new Configuration
+            {
+                FilePath = FilePathTextBox.Text,
+                Server = ServerTextBox.Text,
+                Database = DatabaseTextBox.Text,
+                UseSqlAuth = AuthComboBox.SelectedIndex == 1,
+                User = UserTextBox.Text,
+                Password = PasswordBox.Password,
+                Encrypt = EncryptCheckBox.IsChecked == true,
+                TrustServerCertificate = TrustServerCertificateCheckBox.IsChecked == true,
+                ReadOnlyIntent = ReadOnlyIntentCheckBox.IsChecked == true,
+                Parameters = Parameters.Select(p => new SqlParameter { Name = p.Name, Value = p.Value }).ToList()
+            };
+
+            try
+            {
+                var json = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(dlg.FileName, json);
+            }
+            catch (Exception ex)
+            {
+                App.LogError(ex.ToString());
+                MessageBox.Show("Failed to save configuration. See error.log for details.");
+            }
+        }
+
+        private void LoadConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog { Filter = "JSON Files (*.json)|*.json|All Files (*.*)|*.*" };
+            if (dlg.ShowDialog() != true) return;
+
+            try
+            {
+                var json = File.ReadAllText(dlg.FileName);
+                var config = JsonSerializer.Deserialize<Configuration>(json);
+                if (config == null) throw new InvalidOperationException("Invalid configuration file.");
+
+                FilePathTextBox.Text = config.FilePath;
+                ServerTextBox.Text = config.Server;
+                DatabaseTextBox.Text = config.Database;
+                AuthComboBox.SelectedIndex = config.UseSqlAuth ? 1 : 0;
+                UserTextBox.Text = config.User;
+                PasswordBox.Password = config.Password;
+                EncryptCheckBox.IsChecked = config.Encrypt;
+                TrustServerCertificateCheckBox.IsChecked = config.TrustServerCertificate;
+                ReadOnlyIntentCheckBox.IsChecked = config.ReadOnlyIntent;
+
+                Parameters.Clear();
+                foreach (var p in config.Parameters)
+                {
+                    Parameters.Add(new SqlParameter { Name = p.Name, Value = p.Value });
+                }
+            }
+            catch (Exception ex)
+            {
+                App.LogError(ex.ToString());
+                MessageBox.Show("Failed to load configuration. See error.log for details.");
+            }
         }
 
         private async void ExecuteButton_Click(object sender, RoutedEventArgs e)
