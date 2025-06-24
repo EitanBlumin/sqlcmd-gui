@@ -92,6 +92,30 @@ namespace SqlcmdGuiApp
                 psi.ArgumentList.Add("-E");
             }
 
+            var encrypt = (EncryptComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString()?.ToLower();
+            if (!string.IsNullOrEmpty(encrypt))
+            {
+                psi.ArgumentList.Add("--encrypt");
+                psi.ArgumentList.Add(encrypt);
+            }
+
+            if (TrustServerCertificateCheckBox.IsChecked == true)
+            {
+                psi.ArgumentList.Add("--trust-server-certificate");
+            }
+
+            if (ReadOnlyIntentCheckBox.IsChecked == true)
+            {
+                psi.ArgumentList.Add("--application-intent");
+                psi.ArgumentList.Add("ReadOnly");
+            }
+
+            if (!string.IsNullOrWhiteSpace(AdvancedOptionsTextBox.Text))
+            {
+                psi.ArgumentList.Add("--connection-string");
+                psi.ArgumentList.Add(AdvancedOptionsTextBox.Text);
+            }
+
             foreach (var p in Parameters)
             {
                 psi.ArgumentList.Add("-v");
