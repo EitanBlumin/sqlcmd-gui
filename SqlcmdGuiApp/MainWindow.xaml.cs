@@ -54,6 +54,7 @@ namespace SqlcmdGuiApp
         private void LoadParameters(string path)
         {
             Parameters.Clear();
+            NoParametersTextBlock.Visibility = Visibility.Collapsed;
             if (!File.Exists(path)) return;
             var text = File.ReadAllText(path);
             var variableRegex = new Regex(@"\$\(([^)]+)\)");
@@ -64,6 +65,10 @@ namespace SqlcmdGuiApp
             foreach (var v in needed)
             {
                 Parameters.Add(new SqlParameter { Name = v, Value = string.Empty });
+            }
+            if (Parameters.Count == 0)
+            {
+                NoParametersTextBlock.Visibility = Visibility.Visible;
             }
         }
 
@@ -202,6 +207,7 @@ namespace SqlcmdGuiApp
                 {
                     Parameters.Add(new SqlParameter { Name = p.Name, Value = p.Value });
                 }
+                NoParametersTextBlock.Visibility = Parameters.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             }
             catch (Exception ex)
             {

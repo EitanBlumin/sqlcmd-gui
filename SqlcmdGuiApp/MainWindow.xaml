@@ -15,7 +15,12 @@
         </Grid.ColumnDefinitions>
 
         <TextBox x:Name="FilePathTextBox" Grid.Column="0" Grid.Row="0" Margin="0 0 5 5"/>
-        <Button Content="Browse" Grid.Column="1" Grid.Row="0" Click="BrowseButton_Click"/>
+        <Button Grid.Column="1" Grid.Row="0" Click="BrowseButton_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8B7;" Margin="0 0 5 0"/>
+                <TextBlock Text="Browse"/>
+            </StackPanel>
+        </Button>
 
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" Margin="0 5">
             <TextBlock Text="Connection Details" FontWeight="Bold"/>
@@ -50,26 +55,54 @@
         </StackPanel>
 
         <GroupBox Header="Parameters" Grid.Row="2" Grid.ColumnSpan="2" Margin="0 5">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ItemsControl x:Name="ParametersPanel">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="5">
-                                <TextBlock Text="{Binding Name}" Width="150"/>
-                                <TextBox Text="{Binding Value}" Width="200"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+            <Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="ParametersPanel">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="5">
+                                    <TextBlock Text="{Binding Name}" Width="150"/>
+                                    <TextBox Text="{Binding Value}" Width="200"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+                <TextBlock x:Name="NoParametersTextBlock" Text="No parameters were detected for the selected file" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" FontStyle="Italic"/>
+            </Grid>
         </GroupBox>
 
         <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 5 0 0">
-            <Button Content="Load Config" Margin="5" Width="100" Click="LoadConfigButton_Click"/>
-            <Button Content="Save Config" Margin="5" Width="100" Click="SaveConfigButton_Click"/>
-            <Button Content="Test Connection" Margin="5" Width="120" Click="TestConnectionButton_Click"/>
-            <Button Content="View Command-Line" Margin="5" Width="120" Click="ViewCommandLineButton_Click"/>
-            <Button Content="Execute" Margin="5" Width="80" Click="ExecuteButton_Click"/>
+            <Button Margin="5" Width="100" Click="LoadConfigButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8B7;" Margin="0 0 5 0"/>
+                    <TextBlock Text="Load Config"/>
+                </StackPanel>
+            </Button>
+            <Button Margin="5" Width="100" Click="SaveConfigButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE74E;" Margin="0 0 5 0"/>
+                    <TextBlock Text="Save Config"/>
+                </StackPanel>
+            </Button>
+            <Button Margin="5" Width="120" Click="TestConnectionButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE9D9;" Margin="0 0 5 0"/>
+                    <TextBlock Text="Test Connection"/>
+                </StackPanel>
+            </Button>
+            <Button Margin="5" Width="120" Click="ViewCommandLineButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE756;" Margin="0 0 5 0"/>
+                    <TextBlock Text="View Command-Line"/>
+                </StackPanel>
+            </Button>
+            <Button Margin="5" Width="80" Click="ExecuteButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE768;" Margin="0 0 5 0"/>
+                    <TextBlock Text="Execute"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

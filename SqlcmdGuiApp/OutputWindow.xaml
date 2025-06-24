@@ -11,7 +11,12 @@
                 <TextBlock x:Name="DurationTextBlock" Text="Duration: 00:00:00" />
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right">
-                <Button x:Name="StopButton" Content="Stop" Width="60" Click="StopButton_Click"/>
+                <Button x:Name="StopButton" Width="60" Click="StopButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE71A;" Margin="0 0 5 0"/>
+                        <TextBlock Text="Stop"/>
+                    </StackPanel>
+                </Button>
             </StatusBarItem>
         </StatusBar>
         <TextBox x:Name="OutputTextBox" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
