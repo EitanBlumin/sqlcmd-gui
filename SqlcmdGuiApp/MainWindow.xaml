@@ -8,6 +8,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -104,5 +105,6 @@
                 </StackPanel>
             </Button>
         </StackPanel>
+        <TextBlock Grid.Row="4" Grid.ColumnSpan="2" Text="Copyright © Eitan Blumin, 2025" Foreground="#336699" HorizontalAlignment="Center" Margin="0 5 0 0"/>
     </Grid>
 </Window>
