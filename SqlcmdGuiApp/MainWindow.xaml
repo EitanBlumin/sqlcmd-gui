@@ -34,6 +34,10 @@
                     <ComboBoxItem Content="SQL"/>
                 </ComboBox>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 2" x:Name="WindowsAuthPanel" Visibility="Collapsed">
+                <TextBlock Text="Account:" Width="80"/>
+                <TextBlock x:Name="WindowsAccountTextBlock" VerticalAlignment="Center"/>
+            </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0 2" x:Name="SqlAuthPanel" Visibility="Collapsed">
                 <TextBlock Text="User:" Width="80"/>
                 <TextBox x:Name="UserTextBox" Width="100"/>
