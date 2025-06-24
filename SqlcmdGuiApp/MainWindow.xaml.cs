@@ -26,10 +26,15 @@ namespace SqlcmdGuiApp
             ParametersPanel.ItemsSource = Parameters;
 
             // Set initial visibility and account information
-            AuthComboBox_SelectionChanged(null, null);
+            UpdateAuthPanels();
         }
 
         private void AuthComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateAuthPanels();
+        }
+
+        private void UpdateAuthPanels()
         {
             if (SqlAuthPanel == null || WindowsAuthPanel == null) return; // may be null during XAML load
             var useSqlAuth = AuthComboBox.SelectedIndex == 1;
