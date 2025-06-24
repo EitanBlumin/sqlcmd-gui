@@ -47,17 +47,13 @@
             <StackPanel Orientation="Horizontal" Margin="0 2">
                 <TextBlock Text="Encrypt:" Width="80"/>
                 <ComboBox x:Name="EncryptComboBox" Width="200">
-                    <ComboBoxItem Content="Optional" IsSelected="True"/>
-                    <ComboBoxItem Content="Mandatory"/>
-                    <ComboBoxItem Content="Strict"/>
+                    <ComboBoxItem Content="true" IsSelected="True"/>
+                    <ComboBoxItem Content="false"/>
+                    <ComboBoxItem Content="disable"/>
                 </ComboBox>
             </StackPanel>
             <CheckBox x:Name="TrustServerCertificateCheckBox" Content="Trust Server Certificate" Margin="0 2"/>
             <CheckBox x:Name="ReadOnlyIntentCheckBox" Content="ReadOnly Application Intent" Margin="0 2"/>
-            <StackPanel Orientation="Horizontal" Margin="0 2">
-                <TextBlock Text="Advanced:" Width="80"/>
-                <TextBox x:Name="AdvancedOptionsTextBox" Width="200"/>
-            </StackPanel>
         </StackPanel>
 
         <GroupBox Header="Parameters" Grid.Row="2" Grid.ColumnSpan="2" Margin="0 5">
