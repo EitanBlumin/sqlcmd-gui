@@ -66,6 +66,85 @@ namespace SqlcmdGuiApp
             }
         }
 
+        private List<string> BuildSqlcmdArguments(bool includeInputFile)
+        {
+            var args = new List<string> { "-S", ServerTextBox.Text };
+
+            if (!string.IsNullOrEmpty(DatabaseTextBox.Text))
+            {
+                args.Add("-d");
+                args.Add(DatabaseTextBox.Text);
+            }
+
+            if (AuthComboBox.SelectedIndex == 1)
+            {
+                args.Add("-U");
+                args.Add(UserTextBox.Text);
+                args.Add("-P");
+                args.Add(PasswordBox.Password);
+            }
+            else
+            {
+                args.Add("-E");
+            }
+
+            var encrypt = (EncryptComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString()?.ToLower();
+            if (!string.IsNullOrEmpty(encrypt))
+            {
+                args.Add("-N");
+                args.Add(encrypt);
+            }
+
+            if (TrustServerCertificateCheckBox.IsChecked == true)
+            {
+                args.Add("-C");
+            }
+
+            if (ReadOnlyIntentCheckBox.IsChecked == true)
+            {
+                args.Add("-K");
+                args.Add("ReadOnly");
+            }
+
+            foreach (var p in Parameters)
+            {
+                args.Add("-v");
+                args.Add($"{p.Name}={p.Value}");
+            }
+
+            if (includeInputFile)
+            {
+                args.Add("-i");
+                args.Add(FilePathTextBox.Text);
+            }
+
+            return args;
+        }
+
+        private ProcessStartInfo BuildSqlcmdProcessInfo(bool includeInputFile)
+        {
+            var psi = new ProcessStartInfo("sqlcmd")
+            {
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            foreach (var arg in BuildSqlcmdArguments(includeInputFile))
+            {
+                psi.ArgumentList.Add(arg);
+            }
+            return psi;
+        }
+
+        private static string Quote(string arg) => arg.Contains(' ') ? $"\"{arg}\"" : arg;
+
+        private string BuildCommandLine()
+        {
+            var args = BuildSqlcmdArguments(true).Select(Quote);
+            return "sqlcmd " + string.Join(" ", args);
+        }
+
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
             if (!File.Exists(FilePathTextBox.Text))
@@ -74,60 +153,7 @@ namespace SqlcmdGuiApp
                 return;
             }
 
-            var psi = new ProcessStartInfo("sqlcmd")
-            {
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-            psi.ArgumentList.Add("-S");
-            psi.ArgumentList.Add(ServerTextBox.Text);
-            if (!string.IsNullOrEmpty(DatabaseTextBox.Text))
-            {
-                psi.ArgumentList.Add("-d");
-                psi.ArgumentList.Add(DatabaseTextBox.Text);
-            }
-
-            if (AuthComboBox.SelectedIndex == 1)
-            {
-                psi.ArgumentList.Add("-U");
-                psi.ArgumentList.Add(UserTextBox.Text);
-                psi.ArgumentList.Add("-P");
-                psi.ArgumentList.Add(PasswordBox.Password);
-            }
-            else
-            {
-                psi.ArgumentList.Add("-E");
-            }
-
-            var encrypt = (EncryptComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString()?.ToLower();
-            if (!string.IsNullOrEmpty(encrypt))
-            {
-                psi.ArgumentList.Add("-N");
-                psi.ArgumentList.Add(encrypt);
-            }
-
-            if (TrustServerCertificateCheckBox.IsChecked == true)
-            {
-                psi.ArgumentList.Add("-C");
-            }
-
-            if (ReadOnlyIntentCheckBox.IsChecked == true)
-            {
-                psi.ArgumentList.Add("-K");
-                psi.ArgumentList.Add("ReadOnly");
-            }
-
-
-            foreach (var p in Parameters)
-            {
-                psi.ArgumentList.Add("-v");
-                psi.ArgumentList.Add($"{p.Name}={p.Value}");
-            }
-
-            psi.ArgumentList.Add("-i");
-            psi.ArgumentList.Add(FilePathTextBox.Text);
+            var psi = BuildSqlcmdProcessInfo(true);
 
             try
             {
@@ -148,6 +174,45 @@ namespace SqlcmdGuiApp
                 App.LogError(ex.ToString());
                 MessageBox.Show("Failed to execute sqlcmd. See error.log for details.");
             }
+        }
+
+        private void TestConnectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            var psi = BuildSqlcmdProcessInfo(false);
+            psi.ArgumentList.Add("-Q");
+            psi.ArgumentList.Add("SELECT 1");
+
+            try
+            {
+                var process = Process.Start(psi);
+                if (process == null)
+                {
+                    throw new InvalidOperationException("Failed to start sqlcmd process.");
+                }
+                process.WaitForExit();
+                var error = process.StandardError.ReadToEnd();
+
+                if (process.ExitCode == 0)
+                {
+                    MessageBox.Show("Connection successful.");
+                }
+                else
+                {
+                    MessageBox.Show(string.IsNullOrWhiteSpace(error) ? "Connection failed." : error);
+                }
+            }
+            catch (Exception ex)
+            {
+                App.LogError(ex.ToString());
+                MessageBox.Show("Failed to execute sqlcmd. See error.log for details.");
+            }
+        }
+
+        private void ViewCommandLineButton_Click(object sender, RoutedEventArgs e)
+        {
+            var cmd = BuildCommandLine();
+            var window = new CommandLineWindow(cmd);
+            window.ShowDialog();
         }
     }
 
